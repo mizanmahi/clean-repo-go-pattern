@@ -20,7 +20,6 @@ func NewRepository(db *gorm.DB) Repository {
 func (r *repository) CreateUser(user *User) (*User, error) {
 
 	return &User{
-		ID:    "1",
 		Name:  "mizan",
 		Email: "mizan@mail.com",
 	}, nil
