@@ -8,7 +8,7 @@ type Repository interface {
 }
 
 type repository struct {
-	db any
+	db *gorm.DB
 }
 
 func NewRepository(db *gorm.DB) Repository {
@@ -19,10 +19,9 @@ func NewRepository(db *gorm.DB) Repository {
 
 func (r *repository) CreateUser(user *User) (*User, error) {
 
-	return &User{
-		Name:  "mizan",
-		Email: "mizan@mail.com",
-	}, nil
+	result := r.db.Create(user)
+
+	return user, result.Error
 
 }
 

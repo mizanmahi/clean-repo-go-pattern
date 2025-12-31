@@ -17,8 +17,25 @@ func NewHandler(s *service) *handler {
 }
 
 func (h *handler) CreateUser(c echo.Context) error {
-	h.service.CreateUser()
-	return c.JSON(http.StatusCreated, map[string]string{"message": "User created successfully"})
+	var user User
+
+	// 1️⃣ Bind request body
+	if err := c.Bind(&user); err != nil {
+		return c.JSON(http.StatusBadRequest, map[string]string{
+			"message": "Invalid request body",
+		})
+	}
+
+	// 2️⃣ Call service with data
+	result, err := h.service.CreateUser(&user)
+	if err != nil {
+		return c.JSON(http.StatusInternalServerError, map[string]string{
+			"message": "Failed to create user",
+		})
+	}
+
+	// 3️⃣ Return response
+	return c.JSON(http.StatusCreated, result)
 
 }
 

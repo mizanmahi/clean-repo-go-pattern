@@ -10,6 +10,7 @@ import (
 func main() {
 	cfg := config.LoadEnv()
 	db := config.DatabaseConnection(cfg)
+
 	e := echo.New()
 
 	server.StartHTTPServer(e, db)

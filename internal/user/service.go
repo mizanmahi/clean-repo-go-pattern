@@ -8,8 +8,13 @@ func NewService(repo Repository) *service {
 	return &service{repo}
 }
 
-func (s service) CreateUser() {
-	s.repo.CreateUser(&User{})
+func (s service) CreateUser(user *User) (User, error) {
+	createdUser, err := s.repo.CreateUser(user)
+	if err != nil {
+		return User{}, err
+	}
+	return *createdUser, nil
+
 }
 
 func (s service) DeleteUser() {
